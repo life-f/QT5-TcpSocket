@@ -35,7 +35,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::execButtonAction()
 {
-    socketClient->write(ui->nick->text().toUtf8()
+   if(ui->nick->text().toUtf8() == ""){
+         QMessageBox::information(NULL,QObject::tr("Ошибка"),tr("Введите ник"));
+         return;
+    } else if (ui->message->text().toUtf8() == ""){
+         QMessageBox::information(NULL,QObject::tr("Ошибка"),tr("Введите сообщение"));
+         return;
+    }else
+        socketClient->write(ui->nick->text().toUtf8()
                         + " " + ui->message->text().toUtf8());
 }
 
