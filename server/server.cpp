@@ -19,7 +19,7 @@ Server::Server(QObject *parent) : QObject(parent)
         qWarning() << "Unable to start server";
     }
     connect(this, &Server::serverClose,
-                this, &QCoreApplication::quit);
+            this, &QCoreApplication::quit);
     clients.clear();
     list.clear();
 }
@@ -40,7 +40,7 @@ void Server::connectUser()
     connect(client, &QTcpSocket::readyRead,
             this, &Server::runClientAction);
     connect(client, &QTcpSocket::disconnected,
-                this, &Server::disconnectUser);
+            this, &Server::disconnectUser);
 }
 
 void Server::runClientAction()
@@ -51,8 +51,10 @@ void Server::runClientAction()
     QString nickname;
     QString message;
     for (int i = 0;i < 2;i++){
-        if (i == 0) stream >> nickname;
-        if (i == 1) stream >> message;
+        if (i == 0)
+            stream >> nickname;
+        if (i == 1)
+            stream >> message;
     }
     qInfo() << "Get message from "<< nickname << ": " << message;
 
@@ -62,7 +64,7 @@ void Server::runClientAction()
         str << nickname + ": " + message;
     }
 
-    f.setFileName("file.txt");
+    f.setFileName("messages.txt");
     list.push_back(nickname + " " + message);
 
     if(!f.open(QIODevice::WriteOnly)){
@@ -92,8 +94,10 @@ void Server::disconnectUser() {
     }
     clients.removeOne(client);
     client->disconnect();
-    if(clients.size() == 0)
+    if(clients.size() == 0){
+        qInfo() << "Server close";
         emit serverClose();
+    }
 }
 
 void Server::send10Message() {
