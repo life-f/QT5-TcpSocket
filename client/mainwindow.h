@@ -23,6 +23,7 @@ private:
      */
     QTcpSocket *socketClient;
     Ui::MainWindow *ui;
+    QString nick = " ";
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -37,5 +38,9 @@ private slots:
      * @brief read Socket
      */
     void readSocket();
+    /**
+     * @brief set nickname of user
+     */
+    void setNick();
 };
 #endif // MAINWINDOW_H
