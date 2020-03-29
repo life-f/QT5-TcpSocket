@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::readSocket);
     connect(ui->send, &QPushButton::clicked,
             this, &MainWindow::execButtonAction);
+    connect(ui->setNick, &QPushButton::clicked,
+            this, &MainWindow::setNick);
 }
 
 MainWindow::~MainWindow()
@@ -35,7 +37,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::execButtonAction()
 {
-    if(ui->nick->text().toUtf8() == ""){
+    if(ui->nick->text().toUtf8() == "" || nick == " "){
          QMessageBox::information(NULL,QObject::tr("Ошибка"),tr("Введите ник"));
          return;
     } else if (ui->message->text().toUtf8() == ""){
@@ -51,4 +53,9 @@ void MainWindow::readSocket()
 {
     QString data = QString(socketClient->readAll());
     ui->textEdit->append(data);
+}
+
+void MainWindow::setNick(){
+    nick = ui->nick->displayText();
+    ui->nick->setReadOnly("True");
 }
